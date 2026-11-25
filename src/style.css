@@ -1,0 +1,189 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-paper: #fafafb;
+  --color-sheet: #ffffff;
+  --color-ink: #1f2330;
+  --color-sub: #6a6f7d;
+  --color-line: #ececf0;
+  /* CS 면접 레터: 핑크. 면(배경·도장)은 진한 색, 글자는 흰 배경 대비 4.5:1 이상인 -ink */
+  --color-cs: #f0386b;
+  --color-cs-ink: #d61f57;
+  --color-cs-soft: #fff1f4;
+  /* 기술 뉴스 레터: 주황 */
+  --color-news: #ff7a1a;
+  --color-news-ink: #b9470a;
+  --color-news-soft: #fff3ea;
+
+  --font-sans: 'IBM Plex Sans KR', system-ui, sans-serif;
+  --font-letter: 'Gowun Batang', 'Noto Serif KR', serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-cs);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.letter[data-type='news'] {
+  --accent: var(--color-news);
+  --accent-ink: var(--color-news-ink);
+  --accent-soft: var(--color-news-soft);
+}
+
+/* 레터 본문: 편지처럼 읽히도록 명조, 넉넉한 행간, 한 줄 40자 안팎 */
+.letter {
+  --accent: var(--color-cs);
+  --accent-ink: var(--color-cs-ink);
+  --accent-soft: var(--color-cs-soft);
+  font-family: var(--font-letter);
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.letter > * + * {
+  margin-top: 1.1em;
+}
+.letter > :first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.letter h1,
+.letter h2,
+.letter h3 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+.letter h1 {
+  font-size: 1.1875rem;
+}
+.letter h2 {
+  font-size: 1.0625rem;
+  margin-top: 2em;
+  padding-left: 0.6em;
+  border-left: 4px solid var(--accent);
+}
+.letter h3 {
+  font-size: 0.9688rem;
+  margin-top: 1.6em;
+  color: var(--accent-ink);
+}
+.letter a {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.letter ul,
+.letter ol {
+  padding-left: 1.3em;
+}
+.letter ul {
+  list-style: disc;
+}
+.letter ol {
+  list-style: decimal;
+}
+.letter li + li {
+  margin-top: 0.35em;
+}
+.letter blockquote {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  padding: 0.8em 1em;
+  border-radius: 0 6px 6px 0;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+.letter :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+.letter pre.hljs {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  background: #1f2330;
+  color: #e6e9f0;
+  padding: 1em 1.1em;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.letter pre.mermaid {
+  background: var(--color-sheet);
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  padding: 1em;
+  text-align: center;
+  overflow-x: auto;
+}
+.letter table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+.letter th,
+.letter td {
+  border: 1px solid var(--color-line);
+  padding: 0.45em 0.7em;
+  text-align: left;
+  vertical-align: top;
+}
+.letter th {
+  background: var(--color-paper);
+  font-weight: 600;
+}
+
+/* highlight.js (어두운 코드 배경용 최소 색) */
+.hljs-keyword,
+.hljs-built_in {
+  color: #9db4ff;
+}
+.hljs-string,
+.hljs-attr {
+  color: #9fd8b4;
+}
+.hljs-number,
+.hljs-literal {
+  color: #f2c48d;
+}
+.hljs-comment {
+  color: #8a93a8;
+  font-style: italic;
+}
+.hljs-title,
+.hljs-function {
+  color: #e9b8ff;
+}

@@ -1,0 +1,38 @@
+name: Subscribe device
+
+# 웹(PWA)은 앱 안에서 토픽을 직접 구독할 수 없어서, 앱에서 받은 토큰을 여기 넣어 서버 쪽에서 토픽에 등록한다.
+# 처음 알림을 켤 때, 그리고 토큰이 바뀌었을 때(앱 재설치, 브라우저 데이터 삭제 등) 한 번 실행하면 된다.
+on:
+  workflow_dispatch:
+    inputs:
+      token:
+        description: "앱의 알림 화면에서 복사한 토큰"
+        required: true
+      topics:
+        description: "구독할 토픽 (쉼표로 구분)"
+        required: false
+        default: "algo,news,cs"
+      action:
+        description: "subscribe 또는 unsubscribe"
+        required: false
+        default: "subscribe"
+
+permissions:
+  contents: read
+
+jobs:
+  subscribe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet "firebase-admin>=7"
+      - name: Manage topic subscription
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FCM_TOKEN: ${{ inputs.token }}
+          FCM_TOPICS: ${{ inputs.topics }}
+          FCM_ACTION: ${{ inputs.action }}
+        run: python scripts/subscribe.py
