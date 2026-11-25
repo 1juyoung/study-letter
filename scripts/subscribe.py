@@ -25,6 +25,18 @@ from google.oauth2 import service_account
 ALLOWED_TOPICS = {"algo", "news", "cs"}
 
 
+def describe_error(e: urllib.error.HTTPError) -> str:
+    """에러 응답에서 status·message·reason만 한 줄로 뽑는다.
+    시크릿 JSON의 '{' 같은 줄이 GitHub 로그에서 ***로 가려지므로 중괄호 없이 출력한다."""
+    body = e.read().decode(errors="replace")
+    try:
+        err = json.loads(body).get("error", {})
+    except ValueError:
+        return body.replace("{", "(").replace("}", ")")[:300]
+    reasons = [d.get("reason", "") for d in err.get("details", []) if isinstance(d, dict)]
+    return f"status={err.get('status')} message={err.get('message')} reason={','.join(r for r in reasons if r)}"
+
+
 def main() -> int:
     raw = os.environ.get("FIREBASE_SERVICE_ACCOUNT", "").strip()
     token = os.environ.get("FCM_TOKEN", "").strip()
@@ -68,7 +80,7 @@ def main() -> int:
                 print(f"{topic}: 이미 구독돼 있어요")
                 continue
             failed = True
-            print(f"::error::{topic}: 실패 (HTTP {e.code}) {e.read().decode(errors='replace')[:500]}")
+            print(f"::error::{topic}: 실패 (HTTP {e.code}) {describe_error(e)}")
     return 1 if failed else 0
 
 
