@@ -1,0 +1,73 @@
+name: News letter
+
+# 매일 오전 9시(KST)에 지난 레터 이후 올라온 글을 정리해 레터로 만들고, 배포한 뒤 news 토픽으로 알린다.
+on:
+  schedule:
+    - cron: "53 23 * * *" # 08:53 KST (UTC 23:53). 정시는 실행이 밀리기 쉬워 조금 당겨 둔다
+  workflow_dispatch:
+
+concurrency:
+  group: news-letter
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    outputs:
+      created: ${{ steps.letter.outputs.created }}
+      failed: ${{ steps.letter.outputs.failed }}
+      title: ${{ steps.letter.outputs.title }}
+      body: ${{ steps.letter.outputs.body }}
+      url: ${{ steps.letter.outputs.url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet feedparser
+      - name: Generate letter
+        id: letter
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+        run: python scripts/news/generate.py
+      - name: Commit letter
+        if: steps.letter.outputs.created == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/letters/news TOPICS.md
+          git commit -m "letter: ${{ steps.letter.outputs.date }} 기술 뉴스"
+          git push
+
+  # GITHUB_TOKEN으로 한 push는 다른 워크플로를 깨우지 않으므로 배포를 직접 호출한다
+  deploy:
+    needs: generate
+    if: needs.generate.outputs.created == 'true'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy.yml
+
+  notify:
+    needs: [generate, deploy]
+    if: always() && (needs.deploy.result == 'success' || needs.generate.outputs.failed == 'true')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet google-auth requests
+      - name: Notify (FCM)
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FCM_TOPIC: news
+          NOTIFY_TITLE: ${{ needs.generate.outputs.failed == 'true' && '기술 뉴스 레터를 만들지 못했어요' || needs.generate.outputs.title }}
+          NOTIFY_BODY: ${{ needs.generate.outputs.failed == 'true' && 'Actions 로그에서 원인을 확인해 주세요.' || needs.generate.outputs.body }}
+          NOTIFY_URL: ${{ needs.generate.outputs.failed == 'true' && format('https://github.com/{0}/actions', github.repository) || needs.generate.outputs.url }}
+        run: python scripts/notify.py
