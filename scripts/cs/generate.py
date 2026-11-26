@@ -2,7 +2,7 @@
 
 흐름
 1. 주제 고르기: 오늘 요일의 분야에서 아직 안 보낸 첫 주제. 그 분야가 끝났으면 남은 주제가 가장 많은 분야에서.
-   전부 끝났으면 복습 레터(지난 객관식 모음).
+   1회차(topics)를 다 보내면 같은 규칙으로 2회차(extra), 그것도 끝나면 복습 레터(지난 객관식 모음).
 2. 근거 자료 가져오기 (gyoogle, Esoolgnah, prepare_frontend_interview, MDN)
 3. 검수: 자료끼리·공식 문서와 다른 설명, 오래된 내용, 틀린 설명을 찾아 메모로 남김 (자동으로 고치지 않음)
 4. 레터 생성(JSON) → 원문 대조 검사 → 실패하면 1번 재생성
@@ -99,24 +99,25 @@ def sent_topics() -> set[str]:
 
 
 def pick_topic(now: datetime, forced: str | None = None) -> tuple[str, dict] | None:
-    """(분야 키, 주제) 또는 None(전부 끝남 → 복습)"""
+    """(분야 키, 주제) 또는 None(1·2회차 모두 끝남 → 복습)"""
     areas = CURRICULUM["areas"]
     if forced:
         for key, area in areas.items():
-            for t in area["topics"]:
+            for t in area["topics"] + area.get("extra", []):
                 if t["title"] == forced:
                     return key, t
         raise SystemExit(f"커리큘럼에 없는 주제예요: {forced}")
 
     done = sent_topics()
-    remaining = {k: [t for t in a["topics"] if t["title"] not in done] for k, a in areas.items()}
     today_area = CURRICULUM["schedule"][WEEKDAYS[now.weekday()]]
-    if remaining[today_area]:
-        return today_area, remaining[today_area][0]
-    # 오늘 분야가 끝났으면 남은 주제가 가장 많은 분야에서 (같으면 커리큘럼 순서)
-    key = max(remaining, key=lambda k: len(remaining[k]))
-    if remaining[key]:
-        return key, remaining[key][0]
+    for round_key in ("topics", "extra"):  # 1회차를 다 보내야 2회차로 넘어간다
+        remaining = {k: [t for t in a.get(round_key, []) if t["title"] not in done] for k, a in areas.items()}
+        if remaining[today_area]:
+            return today_area, remaining[today_area][0]
+        # 오늘 분야가 끝났으면 남은 주제가 가장 많은 분야에서 (같으면 커리큘럼 순서)
+        key = max(remaining, key=lambda k: len(remaining[k]))
+        if remaining[key]:
+            return key, remaining[key][0]
     return None
 
 

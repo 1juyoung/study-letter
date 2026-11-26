@@ -8,6 +8,13 @@
 #   fe:  Esoolgnah/Frontend-Interview-Questions (라이선스 없음 → 근거로만 쓰고 그대로 옮기지 않음)
 #   pf:  junh0328/prepare_frontend_interview (라이선스 없음 → 근거로만 쓰고 그대로 옮기지 않음)
 #   mdn: MDN Web Docs (CC-BY-SA 2.5)
+#   react: React 공식 문서 react.dev (CC BY 4.0)
+#   vue: Vue 공식 문서 (CC BY 4.0)
+#   pg: PostgreSQL 공식 문서 (PostgreSQL License)
+#   ostep: Operating Systems: Three Easy Pieces (무료 공개 교재, 근거로만 쓰고 그대로 옮기지 않음)
+#
+# extra: 1회차(topics)를 모두 보낸 뒤 같은 규칙으로 보내는 2회차 주제. 공식 문서·교재를 근거로 한다.
+#        2회차까지 끝나면 복습 레터(지난 객관식 모음)를 보낸다.
 
 schedule:
   월: network
@@ -36,6 +43,10 @@ areas:
       - { title: 로드 밸런싱, sources: ["gy:Computer Science/Network/로드 밸런싱(Load Balancing).md"] }
       - { title: REST API, sources: ["gy:Web/[Web] REST API.md", "fe:Notes/important-4/restful-api.md", "fe:Notes/important-5/rest-api.md"] }
       - { title: 주소창에 URL을 입력하면 일어나는 일, sources: ["fe:Notes/important-5/what-happens-when-type-google.md"] }
+    extra:
+      - { title: HTTP 캐시, sources: ["mdn:Web/HTTP/Guides/Caching"] }
+      - { title: HTTP/2와 HTTP/3, sources: ["mdn:Glossary/HTTP_2", "mdn:Glossary/HTTP_3"] }
+      - { title: WebSocket, sources: ["mdn:Web/API/WebSockets_API"] }
 
   os:
     name: 운영체제
@@ -56,6 +67,13 @@ areas:
       - { title: 페이징과 세그멘테이션, sources: ["gy:Computer Science/Operating System/Paging and Segmentation.md"] }
       - { title: 페이지 교체 알고리즘, sources: ["gy:Computer Science/Operating System/Page Replacement Algorithm.md"] }
       - { title: 파일 시스템, sources: ["gy:Computer Science/Operating System/File System.md"] }
+    extra:
+      - { title: MLFQ 스케줄링, sources: ["ostep:cpu-sched-mlfq"] }
+      - { title: TLB와 주소 변환, sources: ["ostep:vm-tlbs"] }
+      - { title: 스와핑과 페이지 폴트, sources: ["ostep:vm-beyondphys"] }
+      - { title: 락(Lock)의 구현, sources: ["ostep:threads-locks"] }
+      - { title: 조건 변수, sources: ["ostep:threads-cv"] }
+      - { title: 동시성 버그, sources: ["ostep:threads-bugs"] }
 
   database:
     name: 데이터베이스
@@ -71,6 +89,11 @@ areas:
       - { title: 저장 프로시저, sources: ["gy:Computer Science/Database/저장 프로시저(Stored PROCEDURE).md"] }
       - { title: Redis와 캐시, sources: ["gy:Computer Science/Database/Redis.md"] }
       - { title: SQL Injection, sources: ["gy:Computer Science/Database/SQL Injection.md"] }
+    extra:
+      - { title: MVCC와 동시성 제어, sources: ["pg:mvcc.sgml#Introduction", "pg:mvcc.sgml#Transaction Isolation"] }
+      - { title: 인덱스 종류와 동작, sources: ["pg:indices.sgml#Index Types"] }
+      - { title: 실행 계획(EXPLAIN)과 성능, sources: ["pg:perform.sgml#Using"] }
+      - { title: 락의 종류, sources: ["pg:mvcc.sgml#Explicit Locking"] }
 
   javascript:
     name: JavaScript·브라우저
@@ -95,6 +118,14 @@ areas:
       - { title: 브라우저 동작 원리와 렌더링, sources: ["gy:Web/브라우저 동작 방법.md", "fe:Notes/important-5/browser-rendering.md"] }
       - { title: 리플로우와 리페인트, sources: ["fe:Notes/important-5/reflow-repaint.md"] }
       - { title: 웹 스토리지, sources: ["fe:Notes/important-4/web-storage.md", "mdn:Web/API/Web_Storage_API"] }
+    extra:
+      - { title: 메모리 관리와 가비지 컬렉션, sources: ["mdn:Web/JavaScript/Guide/Memory_management"] }
+      - { title: 얕은 복사와 깊은 복사, sources: ["mdn:Glossary/Shallow_copy", "mdn:Glossary/Deep_copy"] }
+      - { title: 모듈 시스템(ES Modules), sources: ["mdn:Web/JavaScript/Guide/Modules"] }
+      - { title: 디바운스와 스로틀, sources: ["mdn:Glossary/Debounce", "mdn:Glossary/Throttle"] }
+      - { title: 웹 워커, sources: ["mdn:Web/API/Web_Workers_API/Using_web_workers"] }
+      - { title: 중요 렌더링 경로, sources: ["mdn:Web/Performance/Guides/Critical_rendering_path"] }
+      - { title: 웹 접근성, sources: ["mdn:Web/Accessibility"] }
 
   ds_arch:
     name: 자료구조·컴퓨터 구조
@@ -126,6 +157,8 @@ areas:
       - { title: CORS, sources: ["fe:Notes/important-3/how-to-handle-cors-error.md", "mdn:Web/HTTP/Guides/CORS"] }
       - { title: CSRF와 XSS, sources: ["gy:Web/CSRF & XSS.md"] }
       - { title: 시큐어 코딩, sources: ["gy:Computer Science/Software Engineering/클린코드(Clean Code) & 시큐어코딩(Secure Coding).md"] }
+    extra:
+      - { title: 콘텐츠 보안 정책(CSP), sources: ["mdn:Web/HTTP/Guides/CSP"] }
 
   swe_framework:
     name: 소프트웨어 공학·React·Vue
@@ -145,3 +178,23 @@ areas:
       - { title: 마이크로서비스 아키텍처, sources: ["gy:Computer Science/Software Engineering/마이크로서비스 아키텍처(MSA).md"] }
       - { title: 웹 서버와 WAS, sources: ["gy:Web/Web Server와 WAS의 차이.md"] }
       - { title: PWA, sources: ["gy:Web/PWA (Progressive Web App).md"] }
+    extra:
+      - { title: React 렌더링과 커밋, sources: ["react:learn/render-and-commit"] }
+      - { title: 스냅샷으로서의 state, sources: ["react:learn/state-as-a-snapshot"] }
+      - { title: state 업데이트 배칭, sources: ["react:learn/queueing-a-series-of-state-updates"] }
+      - { title: state 보존·초기화와 key, sources: ["react:learn/preserving-and-resetting-state"] }
+      - { title: 리스트 렌더링과 key, sources: ["react:learn/rendering-lists"] }
+      - { title: state 끌어올리기, sources: ["react:learn/sharing-state-between-components"] }
+      - { title: Context로 데이터 전달하기, sources: ["react:learn/passing-data-deeply-with-context"] }
+      - { title: ref로 값 참조하기, sources: ["react:learn/referencing-values-with-refs"] }
+      - { title: useEffect와 동기화, sources: ["react:learn/synchronizing-with-effects"] }
+      - { title: Effect가 필요 없는 경우, sources: ["react:learn/you-might-not-need-an-effect"] }
+      - { title: 순수 컴포넌트, sources: ["react:learn/keeping-components-pure"] }
+      - { title: memo·useMemo·useCallback, sources: ["react:reference/react/memo", "react:reference/react/useMemo", "react:reference/react/useCallback"] }
+      - { title: Vue 반응성 원리, sources: ["vue:guide/extras/reactivity-in-depth"] }
+      - { title: Vue 렌더링 메커니즘과 가상 DOM, sources: ["vue:guide/extras/rendering-mechanism"] }
+      - { title: Vue 생명주기 훅, sources: ["vue:guide/essentials/lifecycle"] }
+      - { title: computed와 watch, sources: ["vue:guide/essentials/computed", "vue:guide/essentials/watchers"] }
+      - { title: provide와 inject, sources: ["vue:guide/components/provide-inject"] }
+      - { title: 컴포넌트 v-model, sources: ["vue:guide/components/v-model"] }
+      - { title: Composition API를 쓰는 이유, sources: ["vue:guide/extras/composition-api-faq"] }
