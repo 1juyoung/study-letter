@@ -1,0 +1,84 @@
+name: CS letter
+
+# 매일 오후 3시(KST)에 커리큘럼의 오늘 주제로 CS 면접 레터를 만들고, 배포한 뒤 cs 토픽으로 알린다.
+on:
+  schedule:
+    - cron: "53 5 * * *" # 14:53 KST (UTC 05:53)
+    # 예약 실행이 건너뛰어지는 날을 대비한 재시도. 오늘 레터가 이미 있으면 바로 끝난다
+    - cron: "53 6 * * *" # 15:53 KST
+    - cron: "53 7 * * *" # 16:53 KST
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: "특정 주제로 만들기 (비워 두면 커리큘럼 순서대로)"
+        required: false
+        default: ""
+
+concurrency:
+  group: cs-letter
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    outputs:
+      created: ${{ steps.letter.outputs.created }}
+      title: ${{ steps.letter.outputs.title }}
+      body: ${{ steps.letter.outputs.body }}
+      url: ${{ steps.letter.outputs.url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet pyyaml
+      - name: Generate letter
+        id: letter
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+          TOPIC: ${{ inputs.topic }}
+        run: |
+          ARGS=""
+          if [ "${{ github.event_name }}" = "schedule" ]; then ARGS="--skip-if-exists"; fi
+          if [ -n "$TOPIC" ]; then ARGS="$ARGS --topic"; python scripts/cs/generate.py $ARGS "$TOPIC"; else python scripts/cs/generate.py $ARGS; fi
+      - name: Commit letter
+        if: steps.letter.outputs.created == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/letters/cs README.md scripts/cs/quiz-bank.json
+          git commit -m "letter: ${{ steps.letter.outputs.date }} CS 면접"
+          git push
+
+  # GITHUB_TOKEN으로 한 push는 다른 워크플로를 깨우지 않으므로 배포를 직접 호출한다
+  deploy:
+    needs: generate
+    if: needs.generate.outputs.created == 'true'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy.yml
+
+  notify:
+    needs: [generate, deploy]
+    if: needs.deploy.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet google-auth requests
+      - name: Notify (FCM)
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FCM_TOPIC: cs
+          NOTIFY_TITLE: ${{ needs.generate.outputs.title }}
+          NOTIFY_BODY: ${{ needs.generate.outputs.body }}
+          NOTIFY_URL: ${{ needs.generate.outputs.url }}
+        run: python scripts/notify.py

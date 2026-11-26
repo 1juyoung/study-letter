@@ -1,0 +1,147 @@
+# CS 면접 레터 커리큘럼 (초안)
+#
+# - 요일마다 정해진 분야에서, 아직 안 보낸 주제 중 맨 위 주제를 보낸다.
+# - 분야 안에서는 기초 → 심화 순서.
+# - 분야의 주제를 다 보냈으면 그 요일은 복습 레터(그동안 나온 객관식 모음)를 보낸다.
+# - sources: 근거 원문. AI는 이 원문 범위 안에서만 설명하고, 출처끼리·공식 문서와 비교해 검수 메모를 단다.
+#   gy:  gyoogle/tech-interview-for-developer (MIT)
+#   fe:  Esoolgnah/Frontend-Interview-Questions (라이선스 없음 → 근거로만 쓰고 그대로 옮기지 않음)
+#   pf:  junh0328/prepare_frontend_interview (라이선스 없음 → 근거로만 쓰고 그대로 옮기지 않음)
+#   mdn: MDN Web Docs (CC-BY-SA 2.5)
+
+schedule:
+  월: network
+  화: os
+  수: database
+  목: javascript
+  금: ds_arch
+  토: web_security
+  일: swe_framework
+
+areas:
+  network:
+    name: 네트워크
+    topics:
+      - { title: OSI 7계층, sources: ["gy:Computer Science/Network/OSI 7 계층.md"] }
+      - { title: TCP와 UDP, sources: ["gy:Computer Science/Network/UDP.md"] }
+      - { title: TCP 3-way·4-way 핸드셰이크, sources: ["gy:Computer Science/Network/TCP 3 way handshake & 4 way handshake.md"] }
+      - { title: TCP 흐름 제어와 혼잡 제어, sources: ["gy:Computer Science/Network/TCP (흐름제어혼잡제어).md"] }
+      - { title: DNS 동작 방식, sources: ["gy:Computer Science/Network/DNS.md"] }
+      - { title: HTTP와 HTTPS, sources: ["gy:Computer Science/Network/HTTP & HTTPS.md", "mdn:Web/HTTP/Guides/Overview"] }
+      - { title: HTTP 메서드, sources: ["gy:Web/HTTP Request Methods.md", "mdn:Web/HTTP/Reference/Methods"] }
+      - { title: HTTP 상태 코드, sources: ["gy:Web/HTTP status code.md", "mdn:Web/HTTP/Reference/Status"] }
+      - { title: 대칭키와 공개키, sources: ["gy:Computer Science/Network/대칭키 & 공개키.md"] }
+      - { title: TLS 핸드셰이크, sources: ["gy:Computer Science/Network/TLS HandShake.md"] }
+      - { title: 블로킹·논블로킹과 동기·비동기, sources: ["gy:Computer Science/Network/[Network] Blocking,Non-blocking & Synchronous,Asynchronous.md", "gy:Computer Science/Network/[Network] Blocking Non-Blocking IO.md"] }
+      - { title: 로드 밸런싱, sources: ["gy:Computer Science/Network/로드 밸런싱(Load Balancing).md"] }
+      - { title: REST API, sources: ["gy:Web/[Web] REST API.md", "fe:Notes/important-4/restful-api.md", "fe:Notes/important-5/rest-api.md"] }
+      - { title: 주소창에 URL을 입력하면 일어나는 일, sources: ["fe:Notes/important-5/what-happens-when-type-google.md"] }
+
+  os:
+    name: 운영체제
+    topics:
+      - { title: 운영체제의 역할, sources: ["gy:Computer Science/Operating System/Operation System.md"] }
+      - { title: 프로세스와 스레드, sources: ["gy:Computer Science/Operating System/Process vs Thread.md"] }
+      - { title: 프로세스 주소 공간, sources: ["gy:Computer Science/Operating System/Process Address Space.md"] }
+      - { title: 프로세스 관리와 PCB, sources: ["gy:Computer Science/Operating System/Process Management & PCB.md"] }
+      - { title: 컨텍스트 스위칭, sources: ["gy:Computer Science/Operating System/PCB & Context Switcing.md"] }
+      - { title: 인터럽트, sources: ["gy:Computer Science/Operating System/Interrupt.md"] }
+      - { title: 시스템 콜(fork·wait·exec), sources: ["gy:Computer Science/Operating System/[OS] System Call (Fork Wait Exec).md"] }
+      - { title: CPU 스케줄링, sources: ["gy:Computer Science/Operating System/CPU Scheduling.md"] }
+      - { title: IPC(프로세스 간 통신), sources: ["gy:Computer Science/Operating System/IPC(Inter Process Communication).md"] }
+      - { title: 경쟁 상태(Race Condition), sources: ["gy:Computer Science/Operating System/Race Condition.md"] }
+      - { title: 세마포어와 뮤텍스, sources: ["gy:Computer Science/Operating System/Semaphore & Mutex.md"] }
+      - { title: 교착 상태(Deadlock), sources: ["gy:Computer Science/Operating System/DeadLock.md"] }
+      - { title: 메모리 관리, sources: ["gy:Computer Science/Operating System/Memory.md"] }
+      - { title: 페이징과 세그멘테이션, sources: ["gy:Computer Science/Operating System/Paging and Segmentation.md"] }
+      - { title: 페이지 교체 알고리즘, sources: ["gy:Computer Science/Operating System/Page Replacement Algorithm.md"] }
+      - { title: 파일 시스템, sources: ["gy:Computer Science/Operating System/File System.md"] }
+
+  database:
+    name: 데이터베이스
+    topics:
+      - { title: 키(Key)의 종류, sources: ["gy:Computer Science/Database/[DB] Key.md"] }
+      - { title: SQL JOIN, sources: ["gy:Computer Science/Database/[Database SQL] JOIN.md"] }
+      - { title: 이상 현상(Anomaly), sources: ["gy:Computer Science/Database/[DB] Anomaly.md"] }
+      - { title: 정규화, sources: ["gy:Computer Science/Database/정규화(Normalization).md"] }
+      - { title: 트랜잭션과 ACID, sources: ["gy:Computer Science/Database/Transaction.md"] }
+      - { title: 트랜잭션 격리 수준, sources: ["gy:Computer Science/Database/Transaction Isolation Level.md"] }
+      - { title: 인덱스, sources: ["gy:Computer Science/Database/[DB] Index.md"] }
+      - { title: SQL과 NoSQL, sources: ["gy:Computer Science/Database/SQL과 NOSQL의 차이.md"] }
+      - { title: 저장 프로시저, sources: ["gy:Computer Science/Database/저장 프로시저(Stored PROCEDURE).md"] }
+      - { title: Redis와 캐시, sources: ["gy:Computer Science/Database/Redis.md"] }
+      - { title: SQL Injection, sources: ["gy:Computer Science/Database/SQL Injection.md"] }
+
+  javascript:
+    name: JavaScript·브라우저
+    topics:
+      - { title: 자바스크립트의 특징, sources: ["fe:Notes/important-4/about-javascript.md"] }
+      - { title: 데이터 타입, sources: ["gy:Language/[Javascript] 데이터 타입.md", "mdn:Web/JavaScript/Guide/Data_structures"] }
+      - { title: null·undefined·undeclared·NaN, sources: ["fe:Notes/important-4/null-undefined-undeclared-nan.md"] }
+      - { title: var·let·const, sources: ["fe:Notes/important-3/var-let-const.md", "mdn:Web/JavaScript/Reference/Statements/let"] }
+      - { title: 호이스팅, sources: ["fe:Notes/important-5/hoisting.md", "mdn:Glossary/Hoisting"] }
+      - { title: 실행 컨텍스트, sources: ["fe:Notes/important-4/execution-context.md"] }
+      - { title: 클로저, sources: ["gy:Language/[Javascript] Closure.md", "fe:Notes/important-5/closure.md", "mdn:Web/JavaScript/Guide/Closures"] }
+      - { title: this, sources: ["fe:Notes/important-4/this.md", "mdn:Web/JavaScript/Reference/Operators/this"] }
+      - { title: 화살표 함수, sources: ["fe:Notes/important-3/es6-arrow-function.md", "mdn:Web/JavaScript/Reference/Functions/Arrow_functions"] }
+      - { title: 프로토타입, sources: ["gy:Language/[Javasript] Object Prototype.md", "mdn:Web/JavaScript/Guide/Inheritance_and_the_prototype_chain"] }
+      - { title: 비동기 처리(콜백·Promise·async/await), sources: ["fe:Notes/important-4/async-in-javascript.md", "mdn:Web/JavaScript/Guide/Using_promises"] }
+      - { title: 이벤트 루프, sources: ["fe:Notes/important-4/event-loop.md", "mdn:Web/JavaScript/Reference/Execution_model"] }
+      - { title: 마이크로태스크 큐와 태스크 큐, sources: ["fe:Notes/important-4/microtask-queue-task-queue.md"] }
+      - { title: 이벤트 버블링과 캡처링, sources: ["fe:Notes/important-4/event-bubbling.md"] }
+      - { title: require와 import, sources: ["fe:Notes/important-3/require-import.md"] }
+      - { title: ES2015+ 주요 문법, sources: ["gy:Language/[Javascript] ES2015+ 요약 정리.md"] }
+      - { title: TypeScript를 쓰는 이유, sources: ["fe:Notes/important-4/type-script.md"] }
+      - { title: 브라우저 동작 원리와 렌더링, sources: ["gy:Web/브라우저 동작 방법.md", "fe:Notes/important-5/browser-rendering.md"] }
+      - { title: 리플로우와 리페인트, sources: ["fe:Notes/important-5/reflow-repaint.md"] }
+      - { title: 웹 스토리지, sources: ["fe:Notes/important-4/web-storage.md", "mdn:Web/API/Web_Storage_API"] }
+
+  ds_arch:
+    name: 자료구조·컴퓨터 구조
+    topics:
+      - { title: 배열, sources: ["gy:Computer Science/Data Structure/Array.md"] }
+      - { title: 연결 리스트, sources: ["gy:Computer Science/Data Structure/Linked List.md"] }
+      - { title: Array·ArrayList·LinkedList 비교, sources: ["gy:Computer Science/Data Structure/Array vs ArrayList vs LinkedList.md"] }
+      - { title: 스택과 큐, sources: ["gy:Computer Science/Data Structure/Stack & Queue.md"] }
+      - { title: 컴퓨터의 구성, sources: ["gy:Computer Science/Computer Architecture/컴퓨터의 구성.md"] }
+      - { title: CPU 작동 원리, sources: ["gy:Computer Science/Computer Architecture/중앙처리장치(CPU) 작동 원리.md"] }
+      - { title: 트리, sources: ["gy:Computer Science/Data Structure/Tree.md"] }
+      - { title: 이진 탐색 트리, sources: ["gy:Computer Science/Data Structure/Binary Search Tree.md"] }
+      - { title: 명령어 사이클, sources: ["gy:Computer Science/Computer Architecture/명령어 Cycle.md"] }
+      - { title: 힙, sources: ["gy:Computer Science/Data Structure/Heap.md"] }
+      - { title: 해시, sources: ["gy:Computer Science/Data Structure/Hash.md"] }
+      - { title: 캐시 메모리, sources: ["gy:Computer Science/Computer Architecture/캐시 메모리(Cache Memory).md"] }
+      - { title: 고정 소수점과 부동 소수점, sources: ["gy:Computer Science/Computer Architecture/고정 소수점 & 부동 소수점.md"] }
+      - { title: 트라이, sources: ["gy:Computer Science/Data Structure/Trie.md"] }
+      - { title: B 트리와 B+ 트리, sources: ["gy:Computer Science/Data Structure/B Tree & B+ Tree.md"] }
+      - { title: 패리티 비트와 해밍 코드, sources: ["gy:Computer Science/Computer Architecture/패리티 비트 & 해밍 코드.md"] }
+
+  web_security:
+    name: 웹 보안·인증
+    topics:
+      - { title: 쿠키와 세션, sources: ["gy:Web/Cookie & Session.md", "mdn:Web/HTTP/Guides/Cookies"] }
+      - { title: 인증 방식 비교, sources: ["gy:Web/인증방식.md"] }
+      - { title: JWT, sources: ["gy:Web/JWT(JSON Web Token).md"] }
+      - { title: OAuth, sources: ["gy:Web/OAuth.md"] }
+      - { title: CORS, sources: ["fe:Notes/important-3/how-to-handle-cors-error.md", "mdn:Web/HTTP/Guides/CORS"] }
+      - { title: CSRF와 XSS, sources: ["gy:Web/CSRF & XSS.md"] }
+      - { title: 시큐어 코딩, sources: ["gy:Computer Science/Software Engineering/클린코드(Clean Code) & 시큐어코딩(Secure Coding).md"] }
+
+  swe_framework:
+    name: 소프트웨어 공학·React·Vue
+    topics:
+      - { title: 객체 지향 프로그래밍, sources: ["gy:Computer Science/Software Engineering/Object-Oriented Programming.md"] }
+      - { title: SPA·CSR·SSR, sources: ["gy:Web/CSR & SSR.md", "fe:Notes/important-4/spa-scr-ssr.md"] }
+      - { title: 함수형 프로그래밍, sources: ["gy:Computer Science/Software Engineering/Fuctional Programming.md"] }
+      - { title: React 생명주기, sources: ["fe:Notes/important-3/react-life-cycle.md", "pf:react.md#라이프 사이클"] }
+      - { title: React Hook, sources: ["gy:Web/React/React Hook.md"] }
+      - { title: 불필요한 리렌더링 막기, sources: ["fe:Notes/important-3/why-stop-rendering.md"] }
+      - { title: Vue 생명주기, sources: ["gy:Web/Vue/Vue.js 라이프사이클 이해하기.md"] }
+      - { title: Vue와 React 비교, sources: ["gy:Web/Vue.js와 React의 차이.md"] }
+      - { title: 클린 코드와 리팩터링, sources: ["gy:Computer Science/Software Engineering/Clean Code & Refactoring.md"] }
+      - { title: TDD, sources: ["gy:Computer Science/Software Engineering/TDD(Test Driven Development).md"] }
+      - { title: 애자일, sources: ["gy:Computer Science/Software Engineering/애자일(Agile).md", "gy:Computer Science/Software Engineering/애자일(Agile)2.md"] }
+      - { title: 데브옵스, sources: ["gy:Computer Science/Software Engineering/데브옵스(DevOps).md"] }
+      - { title: 마이크로서비스 아키텍처, sources: ["gy:Computer Science/Software Engineering/마이크로서비스 아키텍처(MSA).md"] }
+      - { title: 웹 서버와 WAS, sources: ["gy:Web/Web Server와 WAS의 차이.md"] }
+      - { title: PWA, sources: ["gy:Web/PWA (Progressive Web App).md"] }
