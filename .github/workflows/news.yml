@@ -4,6 +4,9 @@ name: News letter
 on:
   schedule:
     - cron: "53 23 * * *" # 08:53 KST (UTC 23:53). 정시는 실행이 밀리기 쉬워 조금 당겨 둔다
+    # 예약 실행이 건너뛰어지는 날을 대비한 재시도. 오늘 레터가 이미 있으면 바로 끝난다
+    - cron: "53 0 * * *" # 09:53 KST
+    - cron: "53 1 * * *" # 10:53 KST
   workflow_dispatch:
 
 concurrency:
@@ -33,7 +36,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
-        run: python scripts/news/generate.py
+        run: python scripts/news/generate.py ${{ github.event_name == 'schedule' && '--skip-if-exists' || '' }}
       - name: Commit letter
         if: steps.letter.outputs.created == 'true'
         run: |

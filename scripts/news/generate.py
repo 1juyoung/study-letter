@@ -277,7 +277,14 @@ def write_output(**values: str) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", help="레포 파일 대신 이 경로에만 저장 (로컬 테스트용)")
+    ap.add_argument("--skip-if-exists", action="store_true", help="오늘 레터가 이미 있으면 아무것도 하지 않음 (재시도 예약용)")
     args = ap.parse_args()
+
+    today = datetime.now(KST).strftime("%Y-%m-%d")
+    if args.skip_if_exists and (LETTER_DIR / f"{today}.md").exists():
+        print(f"오늘({today}) 레터가 이미 있어서 건너뛰어요.", file=sys.stderr)
+        write_output(created="false")
+        return 0
 
     api_key = os.environ.get("GEMINI_API_KEY", "")
     if not api_key:
